@@ -148,13 +148,35 @@ else
     
 fi
 
-# Grant Full Access To Creation Directories
+# Grant Full Access To Work Directories
+
+printf "[+] Granting full access to work directories...\n";
 
 chown lfs "$LFS/tools" && chown lfs "$LFS/sources";
 
 # Change Environment For LFS User
 
+printf "[+] Setting custom environment for the \"lfs\" user...\n";
+
 printf "exec env -i HOME='%s' TERM='%s' PS1='%s' /bin/bash\n" \
     "$HOME" \
     "$TERM" \
     "\u:\w\\$" > "/home/lfs/.bash_profile";
+
+# Add Custom BASH RC File For LFS User
+
+printf "[+] Adding a custom RC script for the \"lfs\" user...\n";
+
+printf "# Define Environment Variables
+
+LFS=\"$LFS\";
+LC_ALL=\"POSIX\";
+PATH=\"/tools/bin:/bin:/usr/bin\";
+
+# Turn Off Hash Function & Set Default File Creation Mask 
+
+set +h && umask 022;
+
+# Export Environment Variables
+
+export LFS LC_ALL PATH;\n" > "/home/lfs/.bashrc"
