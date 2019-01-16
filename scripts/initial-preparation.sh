@@ -151,3 +151,10 @@ fi
 # Grant Full Access To Creation Directories
 
 chown lfs "$LFS/tools" && chown lfs "$LFS/sources";
+
+# Change Environment For LFS User
+
+printf "exec env -i HOME='%s' TERM='%s' PS1='%s' /bin/bash\n" \
+    "$HOME" \
+    "$TERM" \
+    "\u:\w\\$" > "/home/lfs/.bash_profile";
