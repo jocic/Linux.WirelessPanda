@@ -2,7 +2,7 @@
 
 ###################################################################
 # Script Author: Djordje Jocic                                    #
-# Script Year: 2018                                               #
+# Script Year: 2019                                               #
 # Script License: MIT License (MIT)                               #
 # =============================================================== #
 # Personal Website: http://www.djordjejocic.com/                  #
@@ -40,7 +40,8 @@ source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 # Other Variables #
 ###################
 
-package_tars="http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz,autoconf,autoconf.tar.xz";
+package_tars="https://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.gz,m4,m4.tar.gz,1.4.18
+https://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz,autoconf,autoconf.tar.xz,2.69";
 
 ##################
 # Temp Variables #
@@ -49,6 +50,8 @@ package_tars="http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz,autoconf,auto
 download_link="";
 package_name="";
 package_file="";
+package_version="";
+package_type="";
 
 #############################
 # Step 1 - Check Privileges #
@@ -89,33 +92,50 @@ for package_tar in $package_tars; do
         
     else
         
-        printf "[+] Skipping $package_name as it's already downloaded...\n\n";
+        printf "[+] Skipping $package_name...\n\n";
         
     fi
     
 done
 
-##############################
-# Step 3 - Install: Autoconf #
-##############################
+#############################
+# Step 4 - Install Packages #
+#############################
 
-printf "[+] Installing autoconf...\n\n";
-
-rm -rfd "$source_dir/../temp/packages/autoconf";
-
-tar -xf "$source_dir/../temp/packages/$package_file" -C \
-    "$source_dir/../temp/packages";
-
-mv "$source_dir/../temp/packages/autoconf-2.69" \
-    "$source_dir/../temp/packages/autoconf";
-
-cd "$source_dir/../temp/packages/autoconf";
-
-./configure && make;
-
-
-
-
-
-
-
+for package_tar in $package_tars; do
+    
+    # Determine Package Details
+    
+    download_link="$(echo "$package_tar" | cut -d ',' -f 1)";
+    package_name="$(echo "$package_tar" | cut -d ',' -f 2)";
+    package_file="$(echo "$package_tar" | cut -d ',' -f 3)";
+    package_version="$(echo "$package_tar" | cut -d ',' -f 4)";
+    package_type="$(file --mime-type "$source_dir/../temp/packages/$package_file" \
+        | cut -d ' ' -f 2)";
+    
+    # Install Package
+    
+    if [ "$package_type" != "inode/x-empty" ]; then
+        
+        printf "[+] Installing $package_name...\n\n";
+        
+        rm -rfd "$source_dir/../temp/packages/$package_name";
+        rm -rfd "$source_dir/../temp/packages/$package_name-*";
+        
+        tar -xf "$source_dir/../temp/packages/$package_file" -C \
+            "$source_dir/../temp/packages";
+        
+        mv "$source_dir/../temp/packages/$package_name-$package_version" \
+            "$source_dir/../temp/packages/$package_name";
+        
+        cd "$source_dir/../temp/packages/$package_name";
+        
+        ./configure && make && make install;
+        
+    else
+        
+        printf "[+] Malformed archive for $package_name...\n" && exit;
+        
+    fi
+    
+done
