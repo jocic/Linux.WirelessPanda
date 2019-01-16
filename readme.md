@@ -4,6 +4,8 @@ Linux distribution for security audit of Wireless Networks built on top of upcom
 
 **Note:** This Linux distribution was built by using the LFS guide which can be found by clicking [here](https://www.tldp.org/LDP/lfs/LFS-BOOK-6.1.1-NOCHUNKS.html).
 
+**Song of the project:** [Sabaton - The Art of War](https://www.youtube.com/watch?v=aYoK1N90KDk)
+
 **Project is still under development...slow ride...take it easy...**
 
 ## Details
