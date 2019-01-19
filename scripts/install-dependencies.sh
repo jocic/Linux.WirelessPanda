@@ -33,104 +33,93 @@
 # Core Variables #
 ##################
 
-user_id="$(id -u)";
-source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
+download_links="https://ftp.gnu.org/gnu/texinfo/texinfo-6.5.tar.xz";
+#https://mirrors.edge.kernel.org/pub/linux/devel/binutils/binutils-2.24.51.0.3.tar.xz
+#https://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.gz
+#https://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz";
 
 ###################
 # Other Variables #
 ###################
 
-package_tars="https://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.gz,m4,m4.tar.gz,1.4.18
-https://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz,autoconf,autoconf.tar.xz,2.69";
-
-##################
-# Temp Variables #
-##################
-
-download_link="";
-package_name="";
 package_file="";
-package_version="";
+package_name="";
 package_type="";
-
-#############################
-# Step 1 - Check Privileges #
-#############################
-
-if [ "$user_id" != "0" ]; then
-    printf "Error: You need to run this script with root privileges.\n" && exit;
-fi
+package_dir="";
 
 #########################################
-# Step 2 - Perform Initial Preparations #
+# Step 1 - Perform Initial Preparations #
 #########################################
 
-mkdir -p "$source_dir/../temp/packages";
+mkdir -p "$LFS/temp/packages";
+mkdir -p "$LFS/temp/builds";
 
-chmod 777 "$source_dir/../temp/packages";
+chmod 777 "$LFS/temp/packages";
+chmod 777 "$LFS/temp/builds";
 
 ##############################
-# Step 3 - Download Packages #
+# Step 2 - Download Packages #
 ##############################
 
-for package_tar in $package_tars; do
+printf "[+] Downloading packages...\n\n";
+
+for download_link in $download_links; do
     
     # Determine Package Details
     
-    download_link="$(echo "$package_tar" | cut -d ',' -f 1)";
-    package_name="$(echo "$package_tar" | cut -d ',' -f 2)";
-    package_file="$(echo "$package_tar" | cut -d ',' -f 3)";
+    package_file="$(basename "$download_link")";
+    package_name="$(echo "$package_file" | grep -oP "^([A-z0-9]+)")";
     
     # Download Package
     
-    if [ ! -f "$source_dir/../temp/packages/$package_file" ]; then
+    if [ ! -f "$LFS/temp/packages/$package_file" ]; then
         
-        printf "[+] Downloading $package_name...\n\n";
+        printf "[-] Downloading $package_name...\n";
         
-        wget "$download_link" -O "$source_dir/../temp/packages/$package_file" \
+        wget "$download_link" -O "$LFS/temp/packages/$package_file" \
             > /dev/null 2>&1;
         
     else
         
-        printf "[+] Skipping $package_name...\n\n";
+        printf "[-] Skipping $package_name...\n";
         
     fi
     
 done
 
-#############################
-# Step 4 - Install Packages #
-#############################
+############################################
+# Step 3 - Compile & Install Core Packages #
+############################################
 
-for package_tar in $package_tars; do
+printf "\n[+] Compiling & installing packages...\n\n";
+
+for download_link in $download_links; do
     
     # Determine Package Details
     
-    download_link="$(echo "$package_tar" | cut -d ',' -f 1)";
-    package_name="$(echo "$package_tar" | cut -d ',' -f 2)";
-    package_file="$(echo "$package_tar" | cut -d ',' -f 3)";
-    package_version="$(echo "$package_tar" | cut -d ',' -f 4)";
-    package_type="$(file --mime-type "$source_dir/../temp/packages/$package_file" \
+    package_file="$(basename "$download_link")";
+    package_name="$(echo "$package_file" | grep -oP "^([A-z0-9]+)")";
+    package_type="$(file --mime-type "$LFS/temp/packages/$package_file" \
         | cut -d ' ' -f 2)";
     
     # Install Package
     
-    if [ "$package_type" != "inode/x-empty" ]; then
+    if [ "$package_type" != "inode/x-empty" ] && [ "$package_type" != "cannot" ]; then
         
         printf "[+] Installing $package_name...\n\n";
         
-        rm -rfd "$source_dir/../temp/packages/$package_name";
-        rm -rfd "$source_dir/../temp/packages/$package_name-*";
+        rm -rfd "$LFS/temp/builds/$package_name";
         
-        tar -xf "$source_dir/../temp/packages/$package_file" -C \
-            "$source_dir/../temp/packages";
+        tar -xf "$LFS/temp/packages/$package_file" -C "$LFS/temp/builds";
         
-        mv "$source_dir/../temp/packages/$package_name-$package_version" \
-            "$source_dir/../temp/packages/$package_name";
+        package_dir="$(ls -A "$LFS/temp/builds" | grep "$package_name")";
         
-        cd "$source_dir/../temp/packages/$package_name";
+        cd "$LFS/temp/builds/$package_dir";
         
-        ./configure && make && make install;
+        ./configure --prefix="$LFS/tools"
+                    --disable-nls;
+        
+        make && make install;
         
     else
         
