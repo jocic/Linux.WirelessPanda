@@ -48,21 +48,23 @@ fi
 # Step 2 - Set Environment Variables #
 ######################################
 
-export LFS="$source_dir/..";
+export LFS="$source_dir/../";
 
 ################################
 # Step 3 - Prepare Directories #
 ################################
 
+printf "[+] Preparing directories...\n\n";
+
 # Create Tools Directory
 
 if [ -d "$LFS/tools" ]; then
     
-    printf "[+] Skipping creation of the \"tools\" directory...\n";
+    printf "[-] Skipping creation of the \"tools\" directory...\n";
     
 else
     
-    printf "[+] Creating the \"tools\" directory...\n";
+    printf "[-] Creating the \"tools\" directory...\n";
     
     mkdir "$LFS/tools";
     
@@ -72,11 +74,11 @@ fi
 
 if [ -d "/tools" ]; then
     
-    printf "[+] Skipping creation of the \"tools\" symlink...\n";
+    printf "[-] Skipping creation of the \"tools\" symlink...\n";
     
 else
     
-    printf "[+] Creating the \"tools\" symlink...\n";
+    printf "[-] Creating the \"tools\" symlink...\n";
     
     ln -s "$LFS/tools" "/tools";
     
@@ -86,11 +88,11 @@ fi
 
 if [ -d "$LFS/sources" ]; then
     
-    printf "[+] Skipping creation of the \"sources\" directory...\n";
+    printf "[-] Skipping creation of the \"sources\" directory...\n";
     
 else
     
-    printf "[+] Creating the \"sources\" directory...\n";
+    printf "[-] Creating the \"sources\" directory...\n";
     
     mkdir "$LFS/sources";
     
@@ -100,29 +102,31 @@ fi
 
 if [ -d "/sources" ]; then
     
-    printf "[+] Skipping creation of the \"sources\" symlink...\n";
+    printf "[-] Skipping creation of the \"sources\" symlink...\n";
     
 else
     
-    printf "[+] Creating the \"sources\" symlink...\n";
+    printf "[-] Creating the \"sources\" symlink...\n";
     
     ln -s "$LFS/sources" "/sources";
     
 fi
 
 ###########################################
-# Step 4 - Adding Required Groups & Users #
+# Step 4 - Prepare Required Groups & Users #
 ###########################################
+
+printf "\n[+] Preparing groups & users...\n\n";
 
 # Create LFS Group
 
 if [ -n "$(cat /etc/group | grep lfs)" ]; then
     
-    printf "[+] Skipping creation of the \"lfs\" group...\n";
+    printf "[-] Skipping creation of the \"lfs\" group...\n";
     
 else
     
-    printf "[+] Creating the \"lfs\" group...\n";
+    printf "[-] Creating the \"lfs\" group...\n";
     
     groupadd lfs;
     
@@ -132,11 +136,11 @@ fi
 
 if [ -n "$(cat /etc/passwd | grep lfs)" ]; then
     
-    printf "[+] Skipping creation of the \"lfs\" user...\n";
+    printf "[-] Skipping creation of the \"lfs\" user...\n";
     
 else
     
-    printf "[+] Creating the \"lfs\" user...\n";
+    printf "[-] Creating the \"lfs\" user...\n";
     
     [ -d "/home/lfs" ] && rm -rfd "/home/lfs";
     
@@ -150,13 +154,15 @@ fi
 
 # Grant Full Access To Work Directories
 
-printf "[+] Granting full access to work directories...\n";
+printf "[-] Granting full access to work directories...\n";
 
-chown lfs "$LFS/tools" && chown lfs "$LFS/sources";
+chmod 777 "$LFS/../" && chmod 777 "$LFS/../../";
+
+chown lfs -R "$LFS/../../";
 
 # Change Environment For LFS User
 
-printf "[+] Setting custom environment for the \"lfs\" user...\n";
+printf "[-] Setting custom environment for the \"lfs\" user...\n";
 
 printf "exec env -i HOME='%s' TERM='%s' PS1='%s' /bin/bash\n" \
     "$HOME" \
@@ -165,7 +171,7 @@ printf "exec env -i HOME='%s' TERM='%s' PS1='%s' /bin/bash\n" \
 
 # Add Custom BASH RC File For LFS User
 
-printf "[+] Adding a custom RC script for the \"lfs\" user...\n";
+printf "[-] Adding a custom RC script for the \"lfs\" user...\n";
 
 printf "# Define Environment Variables
 
@@ -179,4 +185,17 @@ set +h && umask 022;
 
 # Export Environment Variables
 
-export LFS LC_ALL PATH;\n" > "/home/lfs/.bashrc"
+export LFS LC_ALL PATH;\n" > "/home/lfs/.bashrc";
+
+# Add LFS To Sudoers
+
+if [ -n "$(cat "/etc/sudoers" | grep lfs)" ]; then
+    
+    printf "[-] Skipping adding \"lfs\" user to sudoers...\n";
+    
+else
+    
+    printf "[-] Adding the \"lfs\" user to sudoers...\n";
+    
+    echo "lfs ALL=(ALL:ALL) ALL" >> "/etc/sudoers";
+fi
