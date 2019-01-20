@@ -1,6 +1,6 @@
 # Wireless Panda
 
-Linux distribution for security audit of Wireless Networks built on top of upcoming 5.0 Kernel. At least it will be...
+Wireless Panda is a Linux distribution built from scratch for security audit of Wireless Networks using latest and greatest tools available. Now you're probably thinking to yourself: "Why?" Why, indeed? Why not?
 
 **Note:** This Linux distribution was built by using the LFS guide which can be found by clicking [here](https://www.tldp.org/LDP/lfs/LFS-BOOK-6.1.1-NOCHUNKS.html).
 
@@ -10,7 +10,16 @@ Linux distribution for security audit of Wireless Networks built on top of upcom
 
 ## Details
 
-I've just started a project so I have nothing to tell you at this moment in time.
+Following generic packages are available:
+
+*   Bash 5.0
+*   TexInfo 6.5
+*   CoreUtils 8.30
+*   Gawk 4.2.1
+
+And following security packages are available:
+
+**too soon*
 
 ## Support
 
