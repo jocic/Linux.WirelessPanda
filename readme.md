@@ -1,5 +1,7 @@
 # Wireless Panda
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/65ca3c47e17f46a2b25fd6a9377fb189)](https://www.codacy.com/app/jocic/Linux.WirelessPanda?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jocic/Linux.WirelessPanda&amp;utm_campaign=Badge_Grade)
+
 Wireless Panda is a Linux distribution built from scratch for security audit of Wireless Networks using latest and greatest tools available. Now you're probably thinking to yourself: "Why?" Why, indeed? Why not?
 
 **Note:** This Linux distribution was built by using the LFS guide which can be found by clicking [here](https://www.tldp.org/LDP/lfs/LFS-BOOK-6.1.1-NOCHUNKS.html).
@@ -19,7 +21,7 @@ Following generic packages are available:
 
 And following security packages are available:
 
-**too soon*
+**too soon**
 
 ## Support
 
