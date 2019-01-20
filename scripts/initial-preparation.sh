@@ -112,9 +112,19 @@ else
     
 fi
 
-###########################################
-# Step 4 - Prepare Required Groups & Users #
-###########################################
+##########################
+# Step 4 - Prepare Files #
+##########################
+
+printf "\n[+] Preparing files...\n";
+
+if [ ! -f "$LFS/temp/installed.txt" ]; then
+    touch "$LFS/temp/installed.txt";
+fi
+
+############################################
+# Step 5 - Prepare Required Groups & Users #
+############################################
 
 printf "\n[+] Preparing groups & users...\n\n";
 

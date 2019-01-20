@@ -33,7 +33,9 @@
 # Core Variables #
 ##################
 
-download_links="https://ftp.gnu.org/gnu/texinfo/texinfo-6.5.tar.xz";
+download_links="https://ftp.gnu.org/gnu/texinfo/texinfo-6.5.tar.xz
+https://ftp.gnu.org/gnu/coreutils/coreutils-8.30.tar.xz
+https://ftp.gnu.org/gnu/bison/bison-3.2.4.tar.xz";
 #https://mirrors.edge.kernel.org/pub/linux/devel/binutils/binutils-2.24.51.0.3.tar.xz
 #https://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.gz
 #https://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz";
@@ -104,7 +106,11 @@ for download_link in $download_links; do
     
     # Install Package
     
-    if [ "$package_type" != "inode/x-empty" ] && [ "$package_type" != "cannot" ]; then
+    if [ -n "$(grep "$package_name" < "$LFS/temp/installed.txt")" ]; then
+        
+        printf "[+] Skipping $package_name...\n\n";
+        
+    elif [ "$package_type" != "inode/x-empty" ] && [ "$package_type" != "cannot" ]; then
         
         printf "[+] Installing $package_name...\n\n";
         
@@ -120,6 +126,8 @@ for download_link in $download_links; do
                     --disable-nls;
         
         make && make install;
+        
+        printf "%s\n" "$package_name" >> "$LFS/temp/installed.txt";
         
     else
         
