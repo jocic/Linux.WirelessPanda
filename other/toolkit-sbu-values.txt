@@ -1,3 +1,4 @@
 texinfo: 1
 coreutils: X
+bash: X
 gawk: X

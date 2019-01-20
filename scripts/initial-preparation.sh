@@ -35,6 +35,7 @@
 
 user_id="$(id -u)";
 source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
+root_dir="$source_dir/..";
 
 #############################
 # Step 1 - Check Privileges #
@@ -44,21 +45,15 @@ if [ "$user_id" != "0" ]; then
     printf "Error: You need to run this script with root privileges.\n" && exit;
 fi
 
-######################################
-# Step 2 - Set Environment Variables #
-######################################
-
-export LFS="$source_dir/../";
-
 ################################
-# Step 3 - Prepare Directories #
+# Step 2 - Prepare Directories #
 ################################
 
 printf "[+] Preparing directories...\n\n";
 
 # Create Tools Directory
 
-if [ -d "$LFS/tools" ]; then
+if [ -d "$root_dir/tools" ]; then
     
     printf "[-] Skipping creation of the \"tools\" directory...\n";
     
@@ -66,7 +61,7 @@ else
     
     printf "[-] Creating the \"tools\" directory...\n";
     
-    mkdir "$LFS/tools";
+    mkdir "$root_dir/tools";
     
 fi
 
@@ -80,13 +75,13 @@ else
     
     printf "[-] Creating the \"tools\" symlink...\n";
     
-    ln -s "$LFS/tools" "/tools";
+    ln -s "$root_dir/tools" "/tools";
     
 fi
 
 # Create Sources Directory
 
-if [ -d "$LFS/sources" ]; then
+if [ -d "$root_dir/sources" ]; then
     
     printf "[-] Skipping creation of the \"sources\" directory...\n";
     
@@ -94,7 +89,7 @@ else
     
     printf "[-] Creating the \"sources\" directory...\n";
     
-    mkdir "$LFS/sources";
+    mkdir "$root_dir/sources";
     
 fi
 
@@ -108,13 +103,13 @@ else
     
     printf "[-] Creating the \"sources\" symlink...\n";
     
-    ln -s "$LFS/sources" "/sources";
+    ln -s "$root_dir/sources" "/sources";
     
 fi
 
 # Create Temp Directory & It's Subdirectories
 
-if [ -d "$LFS/temp" ]; then
+if [ -d "$root_dir/temp" ]; then
     
     printf "[-] Skipping creation of the \"temp\" directory...\n";
     
@@ -122,11 +117,11 @@ else
     
     printf "[-] Creating the \"temp\" directory...\n";
     
-    mkdir "$LFS/temp";
+    mkdir "$root_dir/temp";
     
-    mkdir "$LFS/temp/packages";
-    mkdir "$LFS/temp/builds";
-    mkdir "$LFS/temp/logs";
+    mkdir "$root_dir/temp/packages";
+    mkdir "$root_dir/temp/builds";
+    mkdir "$root_dir/temp/logs";
     
 fi
 
@@ -136,8 +131,8 @@ fi
 
 printf "\n[+] Preparing files...\n";
 
-if [ ! -f "$LFS/temp/installed.txt" ]; then
-    touch "$LFS/temp/installed.txt";
+if [ ! -f "$root_dir/temp/installed.txt" ]; then
+    touch "$root_dir/temp/installed.txt";
 fi
 
 ############################################
@@ -184,9 +179,9 @@ fi
 
 printf "[-] Granting full access to work directories...\n";
 
-chmod 777 "$LFS/../" && chmod 777 "$LFS/../../";
+chmod 777 "$root_dir/../" && chmod 777 "$root_dir/../../";
 
-chown lfs -R "$LFS/../../";
+chown lfs -R "$root_dir/../../";
 
 # Change Environment For LFS User
 
@@ -203,7 +198,7 @@ printf "[-] Adding a custom RC script for the \"lfs\" user...\n";
 
 printf "# Define Environment Variables
 
-LFS=\"$LFS\";
+LFS=\"$root_dir\";
 LC_ALL=\"POSIX\";
 PATH=\"/tools/bin:/bin:/usr/bin\";
 

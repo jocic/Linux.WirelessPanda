@@ -29,12 +29,27 @@
 # OTHER DEALINGS IN THE SOFTWARE.                                 #
 ###################################################################
 
-#########
-# Logic #
-#########
+##################
+# Core Variables #
+##################
 
-rm -rfd "$LFS/tools";
-rm -rfd "$LFS/source";
-rm -rfd "$LFS/temp";
+user_id="$(id -u)";
+source_dir="$(cd -- "$(dirname -- "$0")" && pwd -P)";
 
-rm "/tools";
+#############################
+# Step 1 - Check Privileges #
+#############################
+
+if [ "$user_id" != "0" ]; then
+    printf "Error: You need to run this script with root privileges.\n" && exit;
+fi
+
+############################
+# Step 2 - Reset Workspace #
+############################
+
+rm -rfd "$source_dir/../tools";
+rm -rfd "$source_dir/../sources";
+rm -rfd "$source_dir/../temp";
+
+rm -f "/tools";

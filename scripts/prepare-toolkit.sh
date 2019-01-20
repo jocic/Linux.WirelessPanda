@@ -33,8 +33,8 @@
 # Core Variables #
 ##################
 
-download_links="$(cat "$LFS/other/packages.txt")";
-sbu_values="$(cat "$LFS/other/sbu-values.txt")";
+download_links="$(cat "$LFS/other/toolkit-packages.txt")";
+sbu_values="$(cat "$LFS/other/toolkit-sbu-values.txt")";
 
 ###################
 # Other Variables #
