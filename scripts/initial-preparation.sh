@@ -120,7 +120,7 @@ printf "\n[+] Preparing groups & users...\n\n";
 
 # Create LFS Group
 
-if [ -n "$(cat /etc/group | grep lfs)" ]; then
+if [ -n "$(grep lfs < /etc/group)" ]; then
     
     printf "[-] Skipping creation of the \"lfs\" group...\n";
     
@@ -134,7 +134,7 @@ fi
 
 # Create LFS User
 
-if [ -n "$(cat /etc/passwd | grep lfs)" ]; then
+if [ -n "$(grep lfs < /etc/passwd)" ]; then
     
     printf "[-] Skipping creation of the \"lfs\" user...\n";
     
@@ -189,7 +189,7 @@ export LFS LC_ALL PATH;\n" > "/home/lfs/.bashrc";
 
 # Add LFS To Sudoers
 
-if [ -n "$(cat "/etc/sudoers" | grep lfs)" ]; then
+if [ -n "$(grep lfs < /etc/sudoers)" ]; then
     
     printf "[-] Skipping adding \"lfs\" user to sudoers...\n";
     
