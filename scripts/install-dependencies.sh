@@ -33,12 +33,8 @@
 # Core Variables #
 ##################
 
-download_links="https://ftp.gnu.org/gnu/texinfo/texinfo-6.5.tar.xz
-https://ftp.gnu.org/gnu/coreutils/coreutils-8.30.tar.xz
-https://ftp.gnu.org/gnu/bison/bison-3.2.4.tar.xz";
-#https://mirrors.edge.kernel.org/pub/linux/devel/binutils/binutils-2.24.51.0.3.tar.xz
-#https://ftp.gnu.org/gnu/m4/m4-1.4.18.tar.gz
-#https://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz";
+download_links="$(cat "$LFS/other/packages.txt")";
+sbu_values="$(cat "$LFS/other/sbu-values.txt")";
 
 ###################
 # Other Variables #
@@ -49,18 +45,8 @@ package_name="";
 package_type="";
 package_dir="";
 
-#########################################
-# Step 1 - Perform Initial Preparations #
-#########################################
-
-mkdir -p "$LFS/temp/packages";
-mkdir -p "$LFS/temp/builds";
-
-chmod 777 "$LFS/temp/packages";
-chmod 777 "$LFS/temp/builds";
-
 ##############################
-# Step 2 - Download Packages #
+# Step 1 - Download Packages #
 ##############################
 
 printf "[+] Downloading packages...\n\n";
@@ -90,7 +76,7 @@ for download_link in $download_links; do
 done
 
 ############################################
-# Step 3 - Compile & Install Core Packages #
+# Step 2 - Compile & Install Core Packages #
 ############################################
 
 printf "\n[+] Compiling & installing packages...\n\n";
@@ -108,30 +94,41 @@ for download_link in $download_links; do
     
     if [ -n "$(grep "$package_name" < "$LFS/temp/installed.txt")" ]; then
         
-        printf "[+] Skipping $package_name...\n\n";
+        printf "[-] Skipping $package_name...\n";
         
     elif [ "$package_type" != "inode/x-empty" ] && [ "$package_type" != "cannot" ]; then
         
-        printf "[+] Installing $package_name...\n\n";
+        printf "[-] Installing $package_name...\n";
         
         rm -rfd "$LFS/temp/builds/$package_name";
+        rm -rfd "$LFS/temp/builds/$package_name-*";
         
         tar -xf "$LFS/temp/packages/$package_file" -C "$LFS/temp/builds";
         
-        package_dir="$(ls -A "$LFS/temp/builds" | grep "$package_name")";
+        package_dir="$(ls -A "$LFS/temp/builds" | grep -m1 "$package_name-")";
         
-        cd "$LFS/temp/builds/$package_dir";
+        mkdir "$LFS/temp/builds/$package_name";
         
-        ./configure --prefix="$LFS/tools"
-                    --disable-nls;
+        cd "$LFS/temp/builds/$package_name";
         
-        make && make install;
+        (
+            "$LFS/temp/builds/$package_dir/configure" --prefix="$LFS/tools"
+                --disable-nls;
+            
+            make && make install;
+            
+        ) > "$LFS/temp/logs/$package_name.log" 2>&1;
+            
         
-        printf "%s\n" "$package_name" >> "$LFS/temp/installed.txt";
+        if [ "$?" = 0 ]; then
+            printf "%s\n" "$package_name" >> "$LFS/temp/installed.txt";
+        else
+            printf "\n[+] Installation of $package_name failed...\n" && exit;
+        fi
         
     else
         
-        printf "[+] Malformed archive for $package_name...\n" && exit;
+        printf "\n[+] Malformed archive for $package_name...\n" && exit;
         
     fi
     

@@ -112,6 +112,24 @@ else
     
 fi
 
+# Create Temp Directory & It's Subdirectories
+
+if [ -d "$LFS/temp" ]; then
+    
+    printf "[-] Skipping creation of the \"temp\" directory...\n";
+    
+else
+    
+    printf "[-] Creating the \"temp\" directory...\n";
+    
+    mkdir "$LFS/temp";
+    
+    mkdir "$LFS/temp/packages";
+    mkdir "$LFS/temp/builds";
+    mkdir "$LFS/temp/logs";
+    
+fi
+
 ##########################
 # Step 4 - Prepare Files #
 ##########################
