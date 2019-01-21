@@ -14,15 +14,15 @@ Wireless Panda is a Linux distribution built from scratch for security audit of 
 
 It's recommended that you build Panda using a Debian-based distribution with following packages installed:
 
-* attr
-* gawk
-* gcc
-* gcc-multilib
-* g++
-* g++-multilib
-* libattr1
-* libattr1-dev
-* m4
+*   attr
+*   gawk
+*   gcc
+*   gcc-multilib
+*   g++
+*   g++-multilib
+*   libattr1
+*   libattr1-dev
+*   m4
 
 Install them by executing the command below.
 
@@ -42,12 +42,12 @@ Preparing core packages is quite a long process which will download and compile 
     </tr>
     <tr>
         <td>
-            <a href="https://download.savannah.gnu.org/releases/acl/acl-2.2.53.tar.gz" target="_blank">
+            <a href="https://download.savannah.gnu.org/releases/acl/acl-2.2.53.tar.gz" title="Version 2.2.53" target="_blank">
                 Acl
             </a>
         </td>
         <td>
-            <a href="https://download.savannah.gnu.org/releases/attr/attr-2.4.48.tar.gz" target="_blank">
+            <a href="https://download.savannah.gnu.org/releases/attr/attr-2.4.48.tar.gz" title="Version 2.4.48" target="_blank">
                 Attr
             </a>
         </td>
@@ -149,6 +149,12 @@ In addition to that, Linux Kernel 5.0-RC2 will be downloaded and compiled.
 ## Pentesting Packages
 
 ...
+
+## Tasks
+
+*   Add an integrity check for downloaded archives
+*   Refactor existing scripts
+*   Integrate Openbox to the project
 
 ## Support
 
