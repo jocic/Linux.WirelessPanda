@@ -14,22 +14,25 @@ Wireless Panda is a Linux distribution built from scratch for security audit of 
 
 It's recommended that you build Panda using a Debian-based distribution with following packages installed:
 
+* attr
+* gawk
 * gcc
 * gcc-multilib
 * g++
 * g++-multilib
+* libattr1
+* libattr1-dev
 * m4
-* gawk
 
 Install them by executing the command below.
 
 ```bash
-sudo apt-get install gcc gcc-multilib g++ g++-multilib m4 gawk
+sudo apt-get install attr gawk gcc gcc-multilib g++ g++-multilib libattr1 libattr1-dev m4
 ```
 
 ## Core Packages
 
-Preparing core packages is quite a long process which will download and compile all of the packages listed in the table below. Compilation time of each package is represented by the Standard Build Unit (SBU) which is calculated when you first run the script and compile **binutils** used as a reference.
+Preparing core packages is quite a long process which will download and compile all of the packages listed in the table below. Compilation time of each package is represented by the Standard Build Unit (SBU) which is calculated when you first run the script and compile **acl** used as a reference.
 
 <table>
     <tr>
@@ -38,8 +41,16 @@ Preparing core packages is quite a long process which will download and compile 
         </td>
     </tr>
     <tr>
-        <td>Acl</td>
-        <td>Attr</td>
+        <td>
+            <a href="https://download.savannah.gnu.org/releases/acl/acl-2.2.53.tar.gz" target="_blank">
+                Acl
+            </a>
+        </td>
+        <td>
+            <a href="https://download.savannah.gnu.org/releases/attr/attr-2.4.48.tar.gz" target="_blank">
+                Attr
+            </a>
+        </td>
         <td>Autoconf</td>
         <td>Automake</td>
         <td>Bash</td>

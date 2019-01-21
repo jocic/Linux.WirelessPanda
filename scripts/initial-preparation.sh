@@ -135,6 +135,10 @@ if [ ! -f "$root_dir/temp/installed.txt" ]; then
     touch "$root_dir/temp/installed.txt";
 fi
 
+if [ ! -f "$root_dir/temp/sbu-time.txt" ]; then
+    touch "$root_dir/temp/sbu-time.txt";
+fi
+
 ############################################
 # Step 5 - Prepare Required Groups & Users #
 ############################################
