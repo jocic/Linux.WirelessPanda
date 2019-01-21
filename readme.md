@@ -10,18 +10,134 @@ Wireless Panda is a Linux distribution built from scratch for security audit of 
 
 **Project is still under development...slow ride...take it easy...**
 
-## Details
+## Requirements
 
-Following generic packages are available:
+It's recommended that you build Panda using a Debian-based distribution with following packages installed:
 
-*   Bash 5.0
-*   TexInfo 6.5
-*   CoreUtils 8.30
-*   Gawk 4.2.1
+* gcc
+* gcc-multilib
+* g++
+* g++-multilib
+* m4
+* gawk
 
-And following security packages are available:
+Install them by executing the command below.
 
-**too soon**
+```bash
+sudo apt-get install gcc gcc-multilib g++ g++-multilib m4 gawk
+```
+
+## Core Packages
+
+Preparing core packages is quite a long process which will download and compile all of the packages listed in the table below. Compilation time of each package is represented by the Standard Build Unit (SBU) which is calculated when you first run the script and compile **binutils** used as a reference.
+
+<table>
+    <tr>
+        <td colspan="6">
+            <strong>Core Packages</strong>
+        </td>
+    </tr>
+    <tr>
+        <td>Acl</td>
+        <td>Attr</td>
+        <td>Autoconf</td>
+        <td>Automake</td>
+        <td>Bash</td>
+        <td>Bc</td>
+    </tr>
+    <tr>
+        <td>Binutils</td>
+        <td>Bison</td>
+        <td>Bzip2</td>
+        <td>Check</td>
+        <td>Coreutils</td>
+        <td>DejaGNU</td>
+    </tr>
+    <tr>
+        <td>Diffutils</td>
+        <td>E2fsprogs</td>
+        <td>Eudev</td>
+        <td>Expat</td>
+        <td>Expect</td>
+        <td>File</td>
+    <tr>
+        <td>Findutils</td>
+        <td>Flex</td>
+        <td>Gawk</td>
+        <td>Gcc</td>
+        <td>GDBM</td>
+        <td>Gettext</td>
+    <tr>
+        <td>Glibc</td>
+        <td>GMP</td>
+        <td>Gperf</td>
+        <td>Grep</td>
+        <td>Groff</td>
+        <td>GRUB</td>
+    <tr>
+        <td>Gzip</td>
+        <td>Iana-Etc</td>
+        <td>Inetutils</td>
+        <td>Initltool</td>
+        <td>IPRoute2</td>
+        <td>Kbd</td>
+    <tr>
+        <td>Kmod</td>
+        <td>Less</td>
+        <td>Libcap</td>
+        <td>Libelf</td>
+        <td>Libffi</td>
+        <td>Libpipeline</td>
+    <tr>
+        <td>Libtool</td>
+        <td>M4</td>
+        <td>Make</td>
+        <td>Man-DB</td>
+        <td>Man-Pages</td>
+        <td>Meson</td>
+    <tr>
+        <td>MPC</td>
+        <td>MPFR</td>
+        <td>Ncurses</td>
+        <td>Ninja</td>
+        <td>Openssl</td>
+        <td>Patch</td>
+    <tr>
+        <td>Perl</td>
+        <td>Pkg-config</td>
+        <td>Popt</td>
+        <td>Procps-ng</td>
+        <td>Psmisc</td>
+        <td>Python</td>
+    <tr>
+        <td>Readline</td>
+        <td>Sed</td>
+        <td>Shadow</td>
+        <td>Syskdlog</td>
+        <td>Systemd</td>
+        <td>Sysvinit</td>
+    <tr>
+        <td>Tar</td>
+        <td>Tcl</td>
+        <td>Texinfo</td>
+        <td>Util-linux</td>
+        <td>Vim</td>
+        <td>XML::Parser</td>
+    <tr>
+        <td>Xz</td>
+        <td>Zlib</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+
+In addition to that, Linux Kernel 5.0-RC2 will be downloaded and compiled.
+
+## Pentesting Packages
+
+...
 
 ## Support
 
