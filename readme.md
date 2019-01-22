@@ -51,13 +51,33 @@ Preparing core packages is quite a long process which will download and compile 
                 Attr
             </a>
         </td>
-        <td>Autoconf</td>
-        <td>Automake</td>
-        <td>Bash</td>
-        <td>Bc</td>
+        <td>
+            <a href="https://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz" title="Version 2.69" target="_blank">
+                Autoconf
+            </a>
+        </td>
+        <td>
+            <a href="https://ftp.gnu.org/gnu/automake/automake-1.16.1.tar.gz" title="Version 1.16.1" target="_blank">
+                Automake
+            </a>
+        </td>
+        <td>
+            <a href="https://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz" title="Version 5.0" target="_blank">
+                Bash
+            </a>
+        </td>
+        <td>
+            <a href="https://ftp.gnu.org/gnu/bc/bc-1.07.1.tar.gz" title="Version 1.07.1" target="_blank">
+                Bc
+            </a>
+        </td>
     </tr>
     <tr>
-        <td>Binutils</td>
+        <td>
+            <a href="https://mirrors.edge.kernel.org/pub/linux/devel/binutils/binutils-2.24.51.0.3.tar.gz" title="Version 2.24.51.0.3" target="_blank">
+                Binutils
+            </a>
+        </td>
         <td>Bison</td>
         <td>Bzip2</td>
         <td>Check</td>

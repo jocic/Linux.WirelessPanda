@@ -1,2 +1,7 @@
 acl: 1
 attr: 0.5
+autoconf: 0.25
+automake: 0.25
+bash: 6
+bc: 0.5
+binutils: 1

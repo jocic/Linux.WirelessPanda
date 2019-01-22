@@ -1,2 +1,7 @@
 https://download.savannah.gnu.org/releases/acl/acl-2.2.53.tar.gz
 https://download.savannah.gnu.org/releases/attr/attr-2.4.48.tar.gz
+https://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
+https://ftp.gnu.org/gnu/automake/automake-1.16.1.tar.gz
+https://ftp.gnu.org/gnu/bash/bash-5.0.tar.gz
+https://ftp.gnu.org/gnu/bc/bc-1.07.1.tar.gz
+https://mirrors.edge.kernel.org/pub/linux/devel/binutils/binutils-2.24.51.0.3.tar.gz

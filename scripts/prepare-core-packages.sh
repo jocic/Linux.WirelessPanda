@@ -66,14 +66,29 @@ for download_link in $download_links; do
     
     if [ ! -f "$LFS/temp/packages/$package_file" ]; then
         
-        printf "[-] Downloading %s...\n" "$package_name";
+        printf "[-] Downloading %s - package...\n" "$package_name";
         
         wget "$download_link" -O "$LFS/temp/packages/$package_file" \
             > /dev/null 2>&1;
         
     else
         
-        printf "[-] Skipping %s...\n" "$package_name";
+        printf "[-] Skipping %s - package...\n" "$package_name";
+        
+    fi
+    
+    # Download Package Signiture
+    
+    if [ ! -f "$LFS/temp/packages/$package_file.sig" ]; then
+        
+        printf "[-] Downloading %s - signiture...\n\n" "$package_name";
+        
+        wget "$download_link" -O "$LFS/temp/packages/$package_file.sig" \
+            > /dev/null 2>&1;
+        
+    else
+        
+        printf "[-] Skipping %s - signiture...\n\n" "$package_name";
         
     fi
     
@@ -85,7 +100,7 @@ done
 
 if [ -z "$sbu_time" ]; then
     
-    printf "\n[+] Determining SBU...\n\n";
+    printf "[+] Determining SBU...\n\n";
     
     # Determine Package Details
     
@@ -125,18 +140,18 @@ if [ -z "$sbu_time" ]; then
         if [ "$?" = 0 ]; then
             printf "%d" "$sbu_time" > "$LFS/temp/sbu-time.txt";
         else
-            printf "\n[+] Compilation of %s failed...\n" $package_name && exit;
+            printf "[+] Compilation of %s failed...\n" $package_name && exit;
         fi
         
     else
         
-        printf "\n[+] Malformed archive for SBU determination...\n" && exit;
+        printf "[+] Malformed archive for SBU determination...\n" && exit;
         
     fi
     
 else
     
-    printf "\n[+] SBU was determined, skipping...\n";
+    printf "[+] SBU was determined, skipping...\n";
     
 fi
 
@@ -158,6 +173,10 @@ for download_link in $download_links; do
     package_sbu="$(echo "$sbu_values" | grep -oP "(?<="$package_name": )([0-9.]+)")";
     package_type="$(file --mime-type "$LFS/temp/packages/$package_file" \
         | cut -d ' ' -f 2)";
+    
+    # Check Signiture
+    
+    
     
     # Install Package
     
