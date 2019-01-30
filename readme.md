@@ -4,7 +4,9 @@
 
 Wireless Panda is a Linux distribution built from scratch for security audit of Wireless Networks using latest and greatest tools available. Now you're probably thinking to yourself: "Why?" Why, indeed? Why not?
 
-**Note:** This Linux distribution was built by using the LFS guide which can be found by clicking [here](https://www.tldp.org/LDP/lfs/LFS-BOOK-6.1.1-NOCHUNKS.html).
+**Note #1:** This Linux distribution was built by using the LFS guide which can be found by clicking [here](https://www.tldp.org/LDP/lfs/LFS-BOOK-6.1.1-NOCHUNKS.html).
+
+**Note #2:** After I'm done with this project, I'll use live build option of Kali Linux to create an alternative.
 
 **Song of the project:** [Sabaton - The Art of War](https://www.youtube.com/watch?v=aYoK1N90KDk)
 
